@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00f516b17bce4be4dae37bca8351091a, type: 3}
-  m_Name: StrongGun
+  m_Name: Gun
   m_EditorClassIdentifier: 
   Description: 
