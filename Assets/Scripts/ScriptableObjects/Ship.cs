@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Uitry;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace Uitry
         {
             foreach (var module in Modules)
             {
-                module.Update(this);
+                module.Update();
             }
         }
         public void AddModule(IModule module)
@@ -40,6 +41,7 @@ namespace Uitry
         public void RemoveModule(IModule module)
         {
             Modules.Remove(module);
+            OnModulaRemove?.Invoke(this, new EventArgs());
         }
 
         public void SubstracEnergy(int delta)
@@ -51,5 +53,11 @@ namespace Uitry
             }
         }
 
+        public void AddEnergy(int delta)
+        {
+            this.Energy += delta;
+        }
+
+        public event EventHandler OnModulaRemove;
     }
 }
