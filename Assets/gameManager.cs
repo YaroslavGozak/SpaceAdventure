@@ -58,6 +58,7 @@ public class gameManager : MonoBehaviour
         var verticalMovement = _random.Next(-10, 10);
         var horizontalMovement = -100;
         rigidBody.AddForce(horizontalMovement, verticalMovement, 0);
+        rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
     }
 
     T TakeRandomElement<T>(IEnumerable<T> collection)

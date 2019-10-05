@@ -4,7 +4,7 @@ public class playerMovement : MonoBehaviour
 {
 
     public Rigidbody rb;
-    public float thrustForce, x_edge = 9, y_edge = 5, k = 0.01f;
+    public float thrustForce, x_edge, y_edge, k;
     public Vector3 pl_pos, movement;
 
     void FixedUpdate()
