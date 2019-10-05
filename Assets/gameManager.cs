@@ -31,7 +31,6 @@ public class gameManager : MonoBehaviour
         if (IsTimeToSpawn())
         {
             var randomValue = _random.Next();
-            Debug.Log("RandomValue: " + randomValue);
             if (randomValue > int.MaxValue / 2)
                 SpawnTrash();
             else

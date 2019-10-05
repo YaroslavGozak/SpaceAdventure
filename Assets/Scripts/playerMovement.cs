@@ -74,4 +74,9 @@ public class playerMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collided: " + other.tag);
+    }
+
 }
