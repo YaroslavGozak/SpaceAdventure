@@ -9,8 +9,6 @@ public class playerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        //just rotating
-        rb.MoveRotation(rb.rotation * Quaternion.AngleAxis(0.5f, Vector3.forward));
 
         //up
         if (Input.GetKey("w") && validate_pos())

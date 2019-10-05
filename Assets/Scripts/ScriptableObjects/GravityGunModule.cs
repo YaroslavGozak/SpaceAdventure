@@ -9,6 +9,8 @@ namespace Uitry {
         public static int health = 3;
         public string Name { get; private set; } = "Gravity Module";
 
+        public bool IsDead => throw new System.NotImplementedException();
+
         // Update is called once per frame
         public void Update(Ship Ship)
         {
