@@ -6,14 +6,23 @@ namespace Uitry
 {
     public class Ship
     {
+        private static Ship _instance = new Ship();
 
+        private Ship() {
+            Modules = new List<IModule>();
+            Energy = 10000;
+            RAM = 8;
+        }
+        public static Ship Instance { get
+            {
+                return _instance;
+            }
+        }
         public int Energy { get; private set; }
         public int RAM { get; private set; }
 
         public List<IModule> Modules { get; set; }
         public bool IsDead { get; internal set; }
-
-        public Ship() { Modules = new List<IModule>(); }
 
         public void UpdateModule()
         {

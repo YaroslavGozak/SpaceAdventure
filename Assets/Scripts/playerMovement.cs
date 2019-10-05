@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Uitry;
+using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
@@ -7,32 +8,39 @@ public class playerMovement : MonoBehaviour
     public float thrustForce, x_edge, y_edge, k;
     public Vector3 pl_pos, movement;
 
+    private int _maxSpeed = 3;
+    private Ship _ship;
+
+    private void Start()
+    {
+        _ship = Ship.Instance;
+    }
     void FixedUpdate()
     {
-
+        validate_pos();
         //up
-        if (Input.GetKey("w") && validate_pos())
+        if (Input.GetKey("w") && validate_pos() && rb.velocity.y < _maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x, rb.position.y + k * thrustForce * Time.deltaTime);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.up * k * thrustForce;
+            MoveShip(newPosition);
         }
         //down
-        if (Input.GetKey("s") && validate_pos())
+        if (Input.GetKey("s") && validate_pos() && rb.velocity.y > -_maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x, rb.position.y - k * thrustForce * Time.deltaTime);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.down * k * thrustForce;
+            MoveShip(newPosition);
         }
         //left
-        if (Input.GetKey("d") && validate_pos())
+        if (Input.GetKey("d") && validate_pos() && rb.velocity.x < _maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x + k * thrustForce * Time.deltaTime, rb.position.y);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.right * k * thrustForce;
+            MoveShip(newPosition);
         }
         //right
-        if (Input.GetKey("a") && validate_pos())
+        if (Input.GetKey("a") && validate_pos() && rb.velocity.x > -_maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x - k * thrustForce * Time.deltaTime, rb.position.y);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.left * k * thrustForce;
+            MoveShip(newPosition);
         }
         //rotate to top
         if (Input.GetKey("q") && validate_pos())
@@ -56,19 +64,23 @@ public class playerMovement : MonoBehaviour
         {
             if (rb.transform.position.y > y_edge)
             {
-                rb.MovePosition(transform.position - k * thrustForce * transform.up * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.down);
             }
             else if (rb.transform.position.y < -y_edge)
             {
-                rb.MovePosition(transform.position + k * thrustForce * transform.up * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.up);
             }
             else if (rb.transform.position.x < -x_edge)
             {
-                rb.MovePosition(transform.position + k * thrustForce * transform.forward * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.right);
             }
             else if (rb.transform.position.x > x_edge)
             {
-                rb.MovePosition(transform.position - k * thrustForce * transform.forward * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.left);
             }
             return false;
         }
@@ -77,8 +89,13 @@ public class playerMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Collided: " + other.tag);
-        // Change the cube color to green.
-        MeshRenderer meshRend = GetComponent<MeshRenderer>();
+    }
+
+    private void MoveShip(Vector3 newPosition)
+    {
+        rb.AddForce(newPosition);
+        _ship.SubstracEnergy(1);
+        Debug.Log("ENERGY: " + _ship.Energy);
     }
 
 }
