@@ -4,28 +4,32 @@ using UnityEngine;
 
 public class gameManager : MonoBehaviour
 {
-    private IEnumerable<GameObject> _trashCollection;
-    public GameObject Asteroid;
-    public Vector3 SpawnZone;
+    public GameObject SpawnObject;
 
     private int _lastFrameCount;
     private System.Random _random;
     private float _timeDifference = 3;
+    private IEnumerable<GameObject> _asteroidCollection;
+    private IEnumerable<GameObject> _trashCollection;
+    private Vector3 _spawnArea;
+    private readonly float _heightRange = 5;
 
     void Start()
     {
         _trashCollection = GameObject.FindGameObjectsWithTag("trash");
+        _asteroidCollection = GameObject.FindGameObjectsWithTag("asteroid");
         _random = new System.Random();
         _lastFrameCount = 0;
-
-        SpawnAsteroid();
+        _spawnArea = SpawnObject.transform.position;
     }
 
     private void FixedUpdate()
     {
-        if (CheckForTimeToSpawn())
+        if (IsTimeToSpawn())
         {
-            if (_random.Next() > 0.5)
+            var randomValue = _random.Next();
+            Debug.Log("RandomValue: " + randomValue);
+            if (randomValue > int.MaxValue / 2)
                 SpawnTrash();
             else
                 SpawnAsteroid();
@@ -34,20 +38,21 @@ public class gameManager : MonoBehaviour
 
     void SpawnTrash()
     {
-        Vector3 trashSpawnPosition = new Vector3(SpawnZone.x, Random.Range(-SpawnZone.y, SpawnZone.y), SpawnZone.z);
-        Quaternion trashSpawnRotation = Quaternion.identity;
-        var trash = Instantiate(TakeRandomElement(_trashCollection), trashSpawnPosition, trashSpawnRotation);
-        var rigidBody = trash.GetComponent<Rigidbody>();
-        var verticalMovement = _random.Next(-10, 10);
-        var horizontalMovement = -100;
-        rigidBody.AddForce(horizontalMovement, verticalMovement, 0);
+        var trash = TakeRandomElement(_trashCollection);
+        SpawnSpaceElement(trash);
     }
     void SpawnAsteroid()
     {
-        Vector3 asteroidSpawnPosition = new Vector3(Random.Range(-SpawnZone.x, SpawnZone.x), SpawnZone.y, SpawnZone.z);
-        Quaternion asteroidSpawnRotation = Quaternion.identity;
-        var asteroid = Instantiate(Asteroid, asteroidSpawnPosition, asteroidSpawnRotation);
-        var rigidBody = asteroid.GetComponent<Rigidbody>();
+        var asteroid = TakeRandomElement(_asteroidCollection);
+        SpawnSpaceElement(asteroid);
+    }
+
+    void SpawnSpaceElement(GameObject elementToSpawn)
+    {
+        Vector3 spawnPosition = new Vector3(_spawnArea.x, Random.Range(_spawnArea.y - _heightRange, _spawnArea.y + _heightRange), _spawnArea.z);
+        Quaternion spawnRotation = Quaternion.identity;
+        var element = Instantiate(elementToSpawn, spawnPosition, spawnRotation);
+        var rigidBody = element.GetComponent<Rigidbody>();
         var verticalMovement = _random.Next(-10, 10);
         var horizontalMovement = -100;
         rigidBody.AddForce(horizontalMovement, verticalMovement, 0);
@@ -61,7 +66,7 @@ public class gameManager : MonoBehaviour
         return list[elementIndex];
     }
 
-    bool CheckForTimeToSpawn()
+    bool IsTimeToSpawn()
     {
         var lastTime = _lastFrameCount * Time.deltaTime;
         var currentTime = Time.frameCount * Time.deltaTime;
