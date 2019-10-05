@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Uitry;
 using UnityEngine;
 
 public class gameManager : MonoBehaviour
@@ -11,9 +12,10 @@ public class gameManager : MonoBehaviour
     private int _lastFrameCount;
     private System.Random _random;
     private float _timeDifference = 3;
-
+    private Ship ship;
     void Start()
     {
+        ship = new Ship();
         _trashCollection = GameObject.FindGameObjectsWithTag("trash");
         _random = new System.Random();
         _lastFrameCount = 0;
