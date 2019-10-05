@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Uitry;
 using UnityEngine;
 
 public class gameManager : MonoBehaviour
@@ -14,8 +15,10 @@ public class gameManager : MonoBehaviour
     private Vector3 _spawnArea;
     private readonly float _heightRange = 5;
 
+    private Ship ship;
     void Start()
     {
+        ship = new Ship();
         _trashCollection = GameObject.FindGameObjectsWithTag("trash");
         _asteroidCollection = GameObject.FindGameObjectsWithTag("asteroid");
         _random = new System.Random();
