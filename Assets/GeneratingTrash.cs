@@ -10,6 +10,11 @@ public class GeneratingTrash : MonoBehaviour
     private int _lastFrameCount;
     private float _speed = 0.05F;
     private System.Random _random;
+    private int _minSpawnDelayInSeconds = 80;
+    private int _maxSpawnDelayInSeconds = 100;
+    private int _hightDispersion = 20;
+    private int _halfScreenWidth = 20;
+    private float _scaleFactor = 0.5F;
     void Start()
     {
         _trashItems = new List<GameObject>();
@@ -27,21 +32,21 @@ public class GeneratingTrash : MonoBehaviour
             item.transform.position = new Vector3(item.transform.position.x + _speed, item.transform.position.y, item.transform.position.z);
         }
 
-        if (Time.frameCount - _lastFrameCount > _random.Next(80, 100))
+        if (Time.frameCount - _lastFrameCount > _random.Next(_minSpawnDelayInSeconds, _maxSpawnDelayInSeconds))
         {
-            var yShift = _random.Next(-20, 20);
+            var yShift = _random.Next(-_hightDispersion, _hightDispersion);
 
-            var trash = Instantiate(myPrefab, new Vector3(playerPosition.x - 20, playerPosition.y + yShift, playerPosition.z), Quaternion.identity);
+            var trash = Instantiate(myPrefab, new Vector3(playerPosition.x - _halfScreenWidth, playerPosition.y + yShift, playerPosition.z), Quaternion.identity);
 
             trash.AddComponent<CapsuleCollider>();
 
-            trash.transform.localScale = new Vector3(0.5F, 0.5F, 0.5F);
+            trash.transform.localScale = new Vector3(_scaleFactor, _scaleFactor, _scaleFactor);
             trash.tag = "trash";
             _trashItems.Add(trash);
 
             _lastFrameCount = Time.frameCount;
         }
 
-        _trashItems.RemoveAll(i => i.transform.position.x - playerPosition.x > 30);
+        _trashItems.RemoveAll(i => i.transform.position.x - playerPosition.x > _halfScreenWidth);
     }
 }

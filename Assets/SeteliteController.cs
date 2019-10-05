@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SeteliteController : MonoBehaviour
 {
+    private int rotationDegree = 2;
+    private float verticalSpeed = 0.1F;
     // Update is called once per frame
     void Update()
     {
@@ -12,27 +14,23 @@ public class SeteliteController : MonoBehaviour
         var setelite = GameObject.Find("Setelite");
         if (Input.GetKey(KeyCode.W))
         {
-            GetComponent<Renderer>().transform.position = new Vector3(position.x, position.y + 0.1F, position.z);
+            GetComponent<Renderer>().transform.position = new Vector3(position.x, position.y + verticalSpeed, position.z);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            GetComponent<Renderer>().transform.position = new Vector3(position.x, position.y - 0.1F, position.z);
+            GetComponent<Renderer>().transform.position = new Vector3(position.x, position.y - verticalSpeed, position.z);
         }
         if (Input.GetKey(KeyCode.A))
         {
             var angles = rotation.eulerAngles;
-            angles.z += 2;
-            Debug.Log("Rotating setelite + 2");
-            setelite.transform.Rotate(angles, 2);
-            Debug.Log(string.Format("Rotation: x {0}, y {1}, z {2}", setelite.transform.rotation.x, setelite.transform.rotation.y, setelite.transform.rotation.z));// + = new Quaternion(rotation.x, rotation.y, rotation.z + 1, rotation.w);
+            angles.z += rotationDegree;
+            setelite.transform.Rotate(angles, rotationDegree);
         }
         if (Input.GetKey(KeyCode.D))
         {
             var angles = rotation.eulerAngles;
-            angles.z += 2;
-            Debug.Log("Rotating setelite - 2");
-            setelite.transform.Rotate(angles, -2);
-            Debug.Log(string.Format("Rotation: x {0}, y {1}, z {2}", setelite.transform.rotation.x, setelite.transform.rotation.y, setelite.transform.rotation.z));//GetComponent<Renderer>().transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z - 1, rotation.w);
+            angles.z += rotationDegree;
+            setelite.transform.Rotate(angles, -rotationDegree);
         }
     }
 
