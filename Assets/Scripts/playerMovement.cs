@@ -77,6 +77,9 @@ public class playerMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Collided: " + other.tag);
+        // Change the cube color to green.
+        MeshRenderer meshRend = GetComponent<MeshRenderer>();
+        meshRend.material.color = Color.green;
     }
 
 }
