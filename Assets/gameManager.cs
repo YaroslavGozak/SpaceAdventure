@@ -25,7 +25,10 @@ public class gameManager : MonoBehaviour
     {
         if (CheckForTimeToSpawn())
         {
-            SpawnTrash();
+            if (_random.Next() > 0.5)
+                SpawnTrash();
+            else
+                SpawnAsteroid();
         }
     }
 
