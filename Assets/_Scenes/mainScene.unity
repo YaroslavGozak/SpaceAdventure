@@ -120,12 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &103147395 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8849828135497713811, guid: 198abff6b642f1346b4acdae8d6dfd77,
-    type: 3}
-  m_PrefabInstance: {fileID: 8849828135533588240}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &104673316
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,13 +205,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104673316}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.58, y: 0.6547127, z: 0.48}
-  m_LocalScale: {x: 1.5266784, y: 12.535, z: 3.122083}
+  m_LocalRotation: {x: -0, y: -0.6561378, z: -0, w: 0.7546411}
+  m_LocalPosition: {x: 12.58, y: 0, z: 0}
+  m_LocalScale: {x: 1.5266784, y: 12.535, z: 0.8330029}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -82.012, z: 0}
 --- !u!1 &165485612
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 8814627636314968097, guid: 8894afbd4594f1045afabe012da268f1,
         type: 3}
       propertyPath: m_IsKinematic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1467972034309006971, guid: 8894afbd4594f1045afabe012da268f1,
         type: 3}
@@ -384,13 +378,23 @@ PrefabInstance:
     - target: {fileID: 5997031956677628173, guid: 8894afbd4594f1045afabe012da268f1,
         type: 3}
       propertyPath: thrustForce
-      value: 2000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5997031956677628173, guid: 8894afbd4594f1045afabe012da268f1,
         type: 3}
       propertyPath: rb
       value: 
       objectReference: {fileID: 928222848}
+    - target: {fileID: 5997031956677628173, guid: 8894afbd4594f1045afabe012da268f1,
+        type: 3}
+      propertyPath: y_edge
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997031956677628173, guid: 8894afbd4594f1045afabe012da268f1,
+        type: 3}
+      propertyPath: x_edge
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8894afbd4594f1045afabe012da268f1, type: 3}
 --- !u!1 &705507993
@@ -571,8 +575,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926058971}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 10, z: 3}
+  m_LocalPosition: {x: 0, y: 1.87, z: 0}
+  m_LocalScale: {x: 25, y: 18.51, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -707,8 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc1b9630b8585b46ae6d1a75a592c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Asteroid: {fileID: 103147395}
-  SpawnZone: {x: 12, y: 0, z: 0}
+  SpawnObject: {fileID: 104673316}
 --- !u!4 &1164764306
 Transform:
   m_ObjectHideFlags: 0
@@ -828,7 +831,7 @@ PrefabInstance:
     - target: {fileID: 7100628487269662323, guid: 5ada70fbfc2ddc54f99074b17d6011b7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 21.14
       objectReference: {fileID: 0}
     - target: {fileID: 7100628487269662323, guid: 5ada70fbfc2ddc54f99074b17d6011b7,
         type: 3}
@@ -899,15 +902,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8849828135497713811, guid: 198abff6b642f1346b4acdae8d6dfd77,
+        type: 3}
+      propertyPath: m_TagString
+      value: asteroid
+      objectReference: {fileID: 0}
     - target: {fileID: 8849828135497713815, guid: 198abff6b642f1346b4acdae8d6dfd77,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 21.82
       objectReference: {fileID: 0}
     - target: {fileID: 8849828135497713815, guid: 198abff6b642f1346b4acdae8d6dfd77,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.51
       objectReference: {fileID: 0}
     - target: {fileID: 8849828135497713815, guid: 198abff6b642f1346b4acdae8d6dfd77,
         type: 3}
