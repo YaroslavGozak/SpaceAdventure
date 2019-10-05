@@ -79,7 +79,6 @@ public class playerMovement : MonoBehaviour
         Debug.Log("Collided: " + other.tag);
         // Change the cube color to green.
         MeshRenderer meshRend = GetComponent<MeshRenderer>();
-        meshRend.material.color = Color.green;
     }
 
 }
