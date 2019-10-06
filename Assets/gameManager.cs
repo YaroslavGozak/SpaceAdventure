@@ -2,6 +2,7 @@
 using System.Linq;
 using Uitry;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class gameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class gameManager : MonoBehaviour
     private IEnumerable<GameObject> _trashCollection;
     private Vector3 _spawnArea;
     private readonly float _heightRange = 5;
+    private Ship _ship = Ship.Instance;
 
     private Ship ship;
     void Start()
@@ -39,6 +41,11 @@ public class gameManager : MonoBehaviour
                 SpawnTrash();
             else
                 SpawnAsteroid();
+        }
+
+        if (_ship.Energy == 0)
+        {
+            EndGame();
         }
     }
 
@@ -94,5 +101,26 @@ public class gameManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+
+    bool isGameEnd = false;
+
+    public void EndGame()
+    {
+        if (!isGameEnd)
+        {
+            isGameEnd = true;
+            Debug.Log("Game Over");
+            Invoke("GoToQuitMenu",4f);
+        }
+    }
+    void GoToQuitMenu()
+    {
+        SceneManager.LoadScene("EndGame");
+    }
+    void Restart()
+    {
+
     }
 }
