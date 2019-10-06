@@ -13,7 +13,7 @@ public class LaserShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(Shoot());
         }
@@ -22,10 +22,11 @@ public class LaserShoot : MonoBehaviour
     IEnumerator Shoot()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right);
-
+        Debug.Log("Shoot. Hit: " + hitInfo.point);
+        Debug.Log("Shoot. Hit: " + hitInfo.transform?.gameObject?.name);
         if (hitInfo)
         {
-            Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
+            Damageble enemy = hitInfo.transform.GetComponent<Damageble>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);

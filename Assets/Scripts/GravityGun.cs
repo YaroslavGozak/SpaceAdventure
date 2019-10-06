@@ -118,7 +118,7 @@ public class GravityGun : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, interactDist))
         {
-            if (hit.collider.CompareTag("Block"))
+            if (hit.collider.CompareTag("trash"))
             {
                 objectIHave = hit.collider.gameObject;
                 objectIHave.transform.SetParent(holdPos);

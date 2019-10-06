@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collisionInfo)
     {
         var other = collisionInfo.collider;
+        Debug.Log($"Collided: {other.gameObject.name}");
         if (other.gameObject.name.Contains("SolarPanel"))
         {
             var solarPanel = GetSolarPanelObjectToUpdate();
@@ -129,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
                 _ship.OnModulaRemove += RemoveModuleHandler;
             }
         }
-        else if (other.gameObject.name.Contains("Hub"))
+        else if (other.gameObject.name.Contains("hub_col"))
         {
             var hub = GetHubObjectToUpdate();
             Debug.Log("Adding hub: ", hub);
@@ -202,14 +203,14 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Getting right");
             var rightName = gameObject.transform.GetChild(1).name;
             Debug.Log(gameObject.transform.GetChild(1).name);
-            return gameObject.transform.Find(rightName).gameObject;
+            return gameObject.transform.Find("SolarPanelRight").gameObject;
         }
         else
         {
             Debug.Log("Getting left");
             var leftName = gameObject.transform.GetChild(0).name;
             Debug.Log(gameObject.transform.GetChild(0).name);
-            return gameObject.transform.Find(leftName).gameObject;
+            return gameObject.transform.Find("SolarPanelLeft").gameObject;
         }
         
     }

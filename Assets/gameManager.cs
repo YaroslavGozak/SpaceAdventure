@@ -26,12 +26,12 @@ public class gameManager : MonoBehaviour
         ship = Ship.Instance;
         _trashCollection = new List<GameObject> { GetPrefabByName("SpaceTrash"), GetPrefabByName("SolarPanel") };
         _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid") };
-        _hub = GetPrefabByName("Hub");
+        _hub = GameObject.Find("hub_col");
         _random = new System.Random();
         _lastFrameCount = 0;
         _spawnArea = new Vector3(SpawnObject.transform.position.x - 5, SpawnObject.transform.position.y);
-        Debug.Log($"Trash collection size: {_trashCollection.Count()}");
-        Debug.Log($"Asteroid collection size: {_asteroidCollection.Count()}");
+        //Debug.Log($"Trash collection size: {_trashCollection.Count()}");
+        //Debug.Log($"Asteroid collection size: {_asteroidCollection.Count()}");
 
         //init start scene
 
@@ -48,7 +48,8 @@ public class gameManager : MonoBehaviour
                 _hubSpawned = true;
             }
         }
-        else if (IsTimeToSpawn())
+        else
+        if (IsTimeToSpawn())
         {
             var randomValue = _random.Next();
             if (randomValue > int.MaxValue / 2)
@@ -84,15 +85,18 @@ public class gameManager : MonoBehaviour
 
     void SpawnHub()
     {
-        var hub = _hub;
-        var player = GameObject.FindGameObjectsWithTag("Player").First();
-        Vector3 spawnPosition = new Vector3(_spawnArea.x, player.transform.position.y, _spawnArea.z);
-        SpawnSpaceElement(_hub, spawnPosition, true);
+        try
+        {
+            var player = GameObject.Find("Player");
+            Vector3 spawnPosition = new Vector3(_spawnArea.x, player.transform.position.y, _spawnArea.z);
+            Quaternion spawnRotation = new Quaternion(-90, 90, 0, 0);
+            SpawnSpaceElement(_hub, spawnPosition, spawnRotation, true);
+        }
+        catch { }
     }
 
-    void SpawnSpaceElement(GameObject elementToSpawn, Vector3 spawnPosition, bool spawnRandomHorizontalVector = false)
+    void SpawnSpaceElement(GameObject elementToSpawn, Vector3 spawnPosition, Quaternion spawnRotation, bool spawnRandomHorizontalVector = false)
     {
-        Quaternion spawnRotation = Quaternion.identity;
         var element = Instantiate(elementToSpawn, spawnPosition, spawnRotation);
         if (element.GetComponent<BoxCollider>() != null) {
             element.GetComponent<BoxCollider>().isTrigger = false;
@@ -102,6 +106,12 @@ public class gameManager : MonoBehaviour
             element.GetComponent<SphereCollider>().isTrigger = false;
         }
         var rigidBody = element.GetComponent<Rigidbody>();
+        if(rigidBody == null)
+        {
+            element.AddComponent<Rigidbody>();
+        }
+        rigidBody = element.GetComponent<Rigidbody>();
+        rigidBody.useGravity = false;
         var verticalMovement = 0;
         if (spawnRandomHorizontalVector)
         {
@@ -110,12 +120,14 @@ public class gameManager : MonoBehaviour
         var horizontalMovement = -100;
         rigidBody.AddForce(horizontalMovement, verticalMovement, 0);
         rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        
     }
 
     void SpawnSpaceElement(GameObject elementToSpawn)
     {
+        Quaternion spawnRotation = Quaternion.identity;
         Vector3 spawnPosition = new Vector3(_spawnArea.x, Random.Range(_spawnArea.y - _heightRange, _spawnArea.y + _heightRange), _spawnArea.z);
-        SpawnSpaceElement(elementToSpawn, spawnPosition);
+        SpawnSpaceElement(elementToSpawn, spawnPosition, spawnRotation);
     }
 
     T TakeRandomElement<T>(IEnumerable<T> collection)
