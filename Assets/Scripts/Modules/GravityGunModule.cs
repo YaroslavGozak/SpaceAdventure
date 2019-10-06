@@ -10,7 +10,7 @@ namespace Uitry {
 
         public override int EnergyConsumption => _energyConsumpsion;
 
-        public override int Ram => 3;
+        public override int RequiredRam => 3;
 
         // Update is called once per frame
         public override void Update()

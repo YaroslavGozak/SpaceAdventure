@@ -11,7 +11,7 @@ public class SolarPanelModule : ModuleBase, IModule
 
     public override int EnergyConsumption => 0;
 
-    public override int Ram => _ramUsed;
+    public override int RequiredRam => _ramUsed;
 
     public override void Apply(Ship ship)
     {

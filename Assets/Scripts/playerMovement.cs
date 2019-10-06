@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Uitry;
@@ -107,17 +108,24 @@ public class playerMovement : MonoBehaviour
             if(solarPanel != null)
             {
                 Debug.Log($"Children: {gameObject.transform.childCount}");
+                var module = new SolarPanelModule()
+                {
+                    Name = solarPanel.name
+                };
+                try
+                {
+                    _ship.AddModule(module);
+                }
+                catch (RamNotEnoughException)
+                {
+                    return;
+                }
 
                 solarPanel.SetActive(true);
 
                 Destroy(collisionInfo.gameObject);
 
-                var module = new SolarPanelModule()
-                {
-                    Name = solarPanel.name
-                };
                 _moduleObjects.Add(module, solarPanel);
-                _ship.AddModule(module);
                 _ship.OnModulaRemove += RemoveModuleHandler;
             }
         }
