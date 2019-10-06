@@ -16,7 +16,9 @@ public abstract class ModuleBase : IModule
 
     public abstract int EnergyConsumption { get; }
 
-    public virtual void Apply(Ship ship)
+    public abstract int Ram { get; }
+
+public virtual void Apply(Ship ship)
     {
         _ship = ship;
     }

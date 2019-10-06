@@ -6,9 +6,12 @@ using UnityEngine;
 public class SolarPanelModule : ModuleBase, IModule
 {
     private float _elapsed;
+    private int _ramUsed = 2;
     public override string Name { get; set;}
 
     public override int EnergyConsumption => 0;
+
+    public override int Ram => _ramUsed;
 
     public override void Apply(Ship ship)
     {
@@ -28,6 +31,6 @@ public class SolarPanelModule : ModuleBase, IModule
 
     private void AddEnergy()
     {
-        _ship.AddEnergy(1);
+        _ship.AddEnergy(5);
     }
 }
