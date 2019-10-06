@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Uitry;
+using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
@@ -7,32 +11,41 @@ public class playerMovement : MonoBehaviour
     public float thrustForce, x_edge, y_edge, k;
     public Vector3 pl_pos, movement;
 
+    private int _maxSpeed = 3;
+    private Ship _ship;
+    private Dictionary<IModule, GameObject> _moduleObjects;
+
+    private void Start()
+    {
+        _ship = Ship.Instance;
+        _moduleObjects = new Dictionary<IModule, GameObject>();
+    }
     void FixedUpdate()
     {
-
+        validate_pos();
         //up
-        if (Input.GetKey("w") && validate_pos())
+        if (Input.GetKey("w") && validate_pos() && rb.velocity.y < _maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x, rb.position.y + k * thrustForce * Time.deltaTime);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.up * k * thrustForce;
+            MoveShip(newPosition);
         }
         //down
-        if (Input.GetKey("s") && validate_pos())
+        if (Input.GetKey("s") && validate_pos() && rb.velocity.y > -_maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x, rb.position.y - k * thrustForce * Time.deltaTime);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.down * k * thrustForce;
+            MoveShip(newPosition);
         }
         //left
-        if (Input.GetKey("d") && validate_pos())
+        if (Input.GetKey("d") && validate_pos() && rb.velocity.x < _maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x + k * thrustForce * Time.deltaTime, rb.position.y);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.right * k * thrustForce;
+            MoveShip(newPosition);
         }
         //right
-        if (Input.GetKey("a") && validate_pos())
+        if (Input.GetKey("a") && validate_pos() && rb.velocity.x > -_maxSpeed)
         {
-            var newPosition = new Vector3(rb.position.x - k * thrustForce * Time.deltaTime, rb.position.y);
-            rb.MovePosition(newPosition);
+            var newPosition = Vector3.left * k * thrustForce;
+            MoveShip(newPosition);
         }
         //rotate to top
         if (Input.GetKey("q") && validate_pos())
@@ -56,29 +69,71 @@ public class playerMovement : MonoBehaviour
         {
             if (rb.transform.position.y > y_edge)
             {
-                rb.MovePosition(transform.position - k * thrustForce * transform.up * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.down);
             }
             else if (rb.transform.position.y < -y_edge)
             {
-                rb.MovePosition(transform.position + k * thrustForce * transform.up * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.up);
             }
             else if (rb.transform.position.x < -x_edge)
             {
-                rb.MovePosition(transform.position + k * thrustForce * transform.forward * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.right);
             }
             else if (rb.transform.position.x > x_edge)
             {
-                rb.MovePosition(transform.position - k * thrustForce * transform.forward * Time.deltaTime);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(Vector3.left);
             }
             return false;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collisionInfo)
     {
-        Debug.Log("Collided: " + other.tag);
-        // Change the cube color to green.
-        MeshRenderer meshRend = GetComponent<MeshRenderer>();
+        var other = collisionInfo.collider;
+        Debug.Log(collisionInfo.collider.name);
+        if (other.gameObject.tag == "solar_panel")
+        {
+          
+            FixedJoint fixedJoint = gameObject.AddComponent<FixedJoint>();
+            fixedJoint.anchor = gameObject.GetComponent<PositionReferences>().GetNextPosition();
+            fixedJoint.connectedBody = other.GetComponent<Rigidbody>();
+            fixedJoint.transform.position = fixedJoint.anchor;
+            fixedJoint.transform.rotation = Quaternion.identity;
+
+            var otherRigidBody = other.GetComponent<Rigidbody>();
+            otherRigidBody.mass = 0.00001F;
+
+            var otherCollider = other.GetComponent<Collider>();
+            otherCollider.enabled = false;
+
+            var module = new SolarPanelModule();
+            _moduleObjects.Add(module, other.gameObject);
+            _ship.AddModule(module);
+            _ship.OnModulaRemove += RemoveModuleHandler;
+            //Debug.Log("Solar Panel attached");
+        }
     }
 
+    private void MoveShip(Vector3 newPosition)
+    {
+        rb.AddForce(newPosition);
+        _ship.SubstracEnergy(1);
+        Debug.Log("ENERGY: " + _ship.Energy);
+    }
+
+    private void RemoveModuleHandler(object sender, EventArgs args)
+    {
+        RemoveModule();
+    }
+    private void RemoveModule()
+    {
+        var firstModule = _moduleObjects.Keys.First();
+        var gameObject = _moduleObjects[firstModule];
+        gameObject.transform.parent = null;
+        _moduleObjects.Remove(firstModule);
+    }
 }

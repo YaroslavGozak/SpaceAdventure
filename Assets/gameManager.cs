@@ -18,12 +18,16 @@ public class gameManager : MonoBehaviour
     private Ship ship;
     void Start()
     {
-        ship = new Ship();
+        ship = Ship.Instance;
         _trashCollection = GameObject.FindGameObjectsWithTag("trash");
+        var list = _trashCollection.ToList();
+        list.AddRange(GameObject.FindGameObjectsWithTag("solar_panel"));
+        _trashCollection = list;
         _asteroidCollection = GameObject.FindGameObjectsWithTag("asteroid");
         _random = new System.Random();
         _lastFrameCount = 0;
-        _spawnArea = SpawnObject.transform.position;
+        _spawnArea = new Vector3(SpawnObject.transform.position.x - 5, SpawnObject.transform.position.y);
+        Debug.Log($"Trash collection size: {_trashCollection.Count()}");
     }
 
     private void FixedUpdate()
@@ -41,6 +45,7 @@ public class gameManager : MonoBehaviour
     void SpawnTrash()
     {
         var trash = TakeRandomElement(_trashCollection);
+        Debug.Log($"Instantiated {trash.name}");
         SpawnSpaceElement(trash);
     }
     void SpawnAsteroid()
@@ -54,6 +59,13 @@ public class gameManager : MonoBehaviour
         Vector3 spawnPosition = new Vector3(_spawnArea.x, Random.Range(_spawnArea.y - _heightRange, _spawnArea.y + _heightRange), _spawnArea.z);
         Quaternion spawnRotation = Quaternion.identity;
         var element = Instantiate(elementToSpawn, spawnPosition, spawnRotation);
+        if (element.GetComponent<BoxCollider>() != null) {
+            element.GetComponent<BoxCollider>().isTrigger = false;
+        }
+        if (element.GetComponent<SphereCollider>() != null)
+        {
+            element.GetComponent<SphereCollider>().isTrigger = false;
+        }
         var rigidBody = element.GetComponent<Rigidbody>();
         var verticalMovement = _random.Next(-10, 10);
         var horizontalMovement = -100;

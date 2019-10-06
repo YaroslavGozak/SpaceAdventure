@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Uitry;
 using UnityEngine;
 
@@ -6,20 +7,29 @@ namespace Uitry
 {
     public class Ship
     {
+        private static Ship _instance = new Ship();
 
+        private Ship() {
+            Modules = new List<IModule>();
+            Energy = 10000;
+            RAM = 8;
+        }
+        public static Ship Instance { get
+            {
+                return _instance;
+            }
+        }
         public int Energy { get; private set; }
         public int RAM { get; private set; }
 
         public List<IModule> Modules { get; set; }
         public bool IsDead { get; internal set; }
 
-        public Ship() { Modules = new List<IModule>(); }
-
         public void UpdateModule()
         {
             foreach (var module in Modules)
             {
-                module.Update(this);
+                module.Update();
             }
         }
         public void AddModule(IModule module)
@@ -31,6 +41,7 @@ namespace Uitry
         public void RemoveModule(IModule module)
         {
             Modules.Remove(module);
+            OnModulaRemove?.Invoke(this, new EventArgs());
         }
 
         public void SubstracEnergy(int delta)
@@ -42,5 +53,11 @@ namespace Uitry
             }
         }
 
+        public void AddEnergy(int delta)
+        {
+            this.Energy += delta;
+        }
+
+        public event EventHandler OnModulaRemove;
     }
 }
