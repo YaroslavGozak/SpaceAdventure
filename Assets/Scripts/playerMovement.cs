@@ -123,9 +123,12 @@ public class playerMovement : MonoBehaviour
         }
         else if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Trash"))
         {
-            var moduleKey = _ship.Modules[_random.Next(_ship.Modules.Count)];
-            moduleKey.Damage(30);
-            Debug.Log($"Ship hit. {moduleKey.Name} health {moduleKey.Health}");
+            if (_ship.Modules.Any())
+            {
+                var moduleKey = _ship.Modules[_random.Next(_ship.Modules.Count)];
+                moduleKey.Damage(30);
+                Debug.Log($"Ship hit. {moduleKey.Name} health {moduleKey.Health}");
+            }
         }
     }
 

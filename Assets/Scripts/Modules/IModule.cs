@@ -12,5 +12,6 @@ namespace Uitry
         string Name { get; set; }
         int Health { get; }
         int EnergyConsumption { get; }
+        int Ram { get; }
     }
 }
