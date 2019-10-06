@@ -9,7 +9,7 @@ namespace Uitry
         void Update();
         void Damage(int delta_health);
         bool IsDead { get; }
-        string Name { get; }
+        string Name { get; set; }
         int Health { get; }
         int EnergyConsumption { get; }
     }

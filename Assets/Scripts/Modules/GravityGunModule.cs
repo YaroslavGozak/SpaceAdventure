@@ -6,7 +6,7 @@ namespace Uitry {
     public class GravityGunModule : ModuleBase, IModule
     {
         private static int _energyConsumpsion = 1;
-        public override string Name => typeof(GravityGunModule).Name;
+        public override string Name { get; set; }
 
         public override int EnergyConsumption => _energyConsumpsion;
 

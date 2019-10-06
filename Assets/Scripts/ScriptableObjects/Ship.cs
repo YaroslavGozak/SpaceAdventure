@@ -25,11 +25,15 @@ namespace Uitry
         public List<IModule> Modules { get; set; }
         public bool IsDead { get; internal set; }
 
-        public void UpdateModule()
+        public void UpdateModules()
         {
             foreach (var module in Modules)
             {
                 module.Update();
+                if (module.IsDead)
+                {
+                    RemoveModule(module);
+                }
             }
         }
         public void AddModule(IModule module)
@@ -41,15 +45,18 @@ namespace Uitry
         public void RemoveModule(IModule module)
         {
             Modules.Remove(module);
-            OnModulaRemove?.Invoke(this, new EventArgs());
+            OnModulaRemove?.Invoke(this, new ModuleRemoveEventArgs { Module = module });
         }
 
         public void SubstracEnergy(int delta)
         {
-            this.Energy -= delta;
-            if (this.Energy <= 0)
+            if(this.Energy > 0)
             {
-                Debug.Log("You Died");
+                this.Energy -= delta;
+                if (this.Energy <= 0)
+                {
+                    Debug.Log("You Died");
+                }
             }
         }
 
@@ -58,6 +65,16 @@ namespace Uitry
             this.Energy += delta;
         }
 
-        public event EventHandler OnModulaRemove;
+        public void AddRam(int ram)
+        {
+            this.RAM += ram;
+        }
+
+        public void SubstractRam(int ram)
+        {
+            this.RAM -= ram;
+        }
+
+        public event ModuleRemoveEventHandler OnModulaRemove;
     }
 }
