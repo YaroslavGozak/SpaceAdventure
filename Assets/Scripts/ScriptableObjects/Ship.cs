@@ -91,6 +91,18 @@ namespace Uitry
             Energy += 200;
         }
 
+        public void AddLaser()
+        {
+            IsHubAttached = true;
+            Energy += 200;
+        }
+
+        public void RemoveLaser()
+        {
+            IsHubAttached = true;
+            Energy += 200;
+        }
+
         public event ModuleRemoveEventHandler OnModulaRemove;
     }
 }

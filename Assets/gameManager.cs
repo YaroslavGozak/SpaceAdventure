@@ -24,14 +24,12 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         ship = Ship.Instance;
-        _trashCollection = new List<GameObject> { GetPrefabByName("SpaceTrash"), GetPrefabByName("SolarPanel") };
-        _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid") };
+        _trashCollection = new List<GameObject> { GetPrefabByName("SpaceTrash"), GetPrefabByName("SolarPanel"), GetPrefabByName("Laser_LP_col") };
+        _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid"), GetPrefabByName("Solar_torax_LP_col"), GetPrefabByName("SolarPanel") };
         _hub = GameObject.Find("hub_col");
         _random = new System.Random();
         _lastFrameCount = 0;
         _spawnArea = new Vector3(SpawnObject.transform.position.x - 5, SpawnObject.transform.position.y);
-        //Debug.Log($"Trash collection size: {_trashCollection.Count()}");
-        //Debug.Log($"Asteroid collection size: {_asteroidCollection.Count()}");
 
         //init start scene
 

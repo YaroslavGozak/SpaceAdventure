@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
             
             damageble.TakeDamage(Damage);
             Debug.Log($"{damageble.name} : {damageble.health}");
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }

@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
                 _ship.OnModulaRemove += RemoveModuleHandler;
             }
         }
-        else if (other.gameObject.name.Contains("hub_col"))
+        if (other.gameObject.name.Contains("hub_col"))
         {
             var hub = GetHubObjectToUpdate();
             Debug.Log("Adding hub: ", hub);
@@ -143,7 +143,59 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(collisionInfo.gameObject);
             }
         }
-        else if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Trash"))
+        if (other.gameObject.name.Contains("Laser_LP_col"))
+        {
+            var laser = GetLaserShooterObjectToUpdate();
+            Debug.Log("Adding laser: ", laser);
+            if (laser != null)
+            {
+                var module = new LaserModule()
+                {
+                    Name = laser.name
+                };
+                try
+                {
+                    _ship.AddModule(module);
+                    _ship.OnModulaRemove += RemoveModuleHandler;
+                }
+                catch (RamNotEnoughException)
+                {
+                    return;
+                }
+
+                laser.SetActive(true);
+                Debug.Log("Laser added: ", laser);
+                Destroy(collisionInfo.gameObject);
+                _moduleObjects.Add(module, laser);
+            }
+        }
+        if (other.gameObject.name.Contains("Solar_torax"))
+        {
+            var solarTorax = GetSolarToraxObjectToUpdate();
+            Debug.Log("Adding solar torax: ", solarTorax);
+            if (solarTorax != null)
+            {
+                var module = new SolarToraxModule()
+                {
+                    Name = solarTorax.name
+                };
+                try
+                {
+                    _ship.AddModule(module);
+                    _ship.OnModulaRemove += RemoveModuleHandler;
+                }
+                catch (RamNotEnoughException)
+                {
+                    return;
+                }
+
+                solarTorax.SetActive(true);
+                Debug.Log("SolarToraxModule added: ", solarTorax);
+                Destroy(collisionInfo.gameObject);
+                _moduleObjects.Add(module, solarTorax);
+            }
+        }
+        if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Trash"))
         {
             if (_ship.Modules.Any())
             {
@@ -186,9 +238,9 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject GetSolarPanelObjectToUpdate()
     {
-        var key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("SolarPanelLeft"));
+        var key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Solar_Wing_left"));
         var leftAttached = key != null;
-        key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("SolarPanelRight"));
+        key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Solar_Wing_right"));
         var rightAttached = key != null;
         if (leftAttached && rightAttached)
         {
@@ -201,16 +253,14 @@ public class PlayerMovement : MonoBehaviour
         if (!rightAttached)
         {
             Debug.Log("Getting right");
-            var rightName = gameObject.transform.GetChild(1).name;
-            Debug.Log(gameObject.transform.GetChild(1).name);
-            return gameObject.transform.Find("SolarPanelRight").gameObject;
+            var torax = gameObject.transform.Find("Solar_torax_LP").gameObject;
+            return torax.transform.Find("Solar_Wing_right").gameObject;
         }
         else
         {
             Debug.Log("Getting left");
-            var leftName = gameObject.transform.GetChild(0).name;
-            Debug.Log(gameObject.transform.GetChild(0).name);
-            return gameObject.transform.Find("SolarPanelLeft").gameObject;
+            var torax = gameObject.transform.Find("Solar_torax_LP").gameObject;
+            return torax.transform.Find("Solar_Wing_left").gameObject;
         }
         
     }
@@ -224,6 +274,32 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Getting hub");
             var hub = gameObject.transform.Find("Hub");
             return hub.gameObject;
+        }
+        return null;
+    }
+
+    private GameObject GetLaserShooterObjectToUpdate()
+    {
+        var key = _ship.Modules.FirstOrDefault(obj => obj.Name.Contains("Laser_LP"));
+        var laserAttached = key != null;
+        if (!laserAttached)
+        {
+            Debug.Log("Getting laser");
+            var laser = gameObject.transform.Find("Laser_LP");
+            return laser.gameObject;
+        }
+        return null;
+    }
+
+    private GameObject GetSolarToraxObjectToUpdate()
+    {
+        var key = _ship.Modules.FirstOrDefault(obj => obj.Name.Contains("Solar_torax_LP"));
+        var solarTorax = key != null;
+        if (!solarTorax)
+        {
+            Debug.Log("Getting solar");
+            var laser = gameObject.transform.Find("Solar_torax_LP");
+            return laser.gameObject;
         }
         return null;
     }

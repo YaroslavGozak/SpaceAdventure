@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class LaserShoot : MonoBehaviour
 {
-
     public Transform firePoint;
     public int damage = 40;
-    public GameObject impactEffect;
-    public LineRenderer lineRenderer;
+    public GameObject Projectile;
 
     // Update is called once per frame
     void Update()
@@ -21,7 +19,7 @@ public class LaserShoot : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        var projectile = Instantiate(impactEffect, firePoint.position, firePoint.rotation /** Quaternion.Euler(0, 0, 90)*/);
+        var projectile = Instantiate(Projectile, firePoint.position, firePoint.rotation /** Quaternion.Euler(0, 0, 90)*/);
         projectile.AddComponent<Rigidbody>();
         var rigidbody = projectile.GetComponent<Rigidbody>();
         rigidbody.useGravity = false;
@@ -31,10 +29,6 @@ public class LaserShoot : MonoBehaviour
         Debug.Log("v: " + v);
         rigidbody.AddForce(v * 1);
 
-        lineRenderer.enabled = true;
-
         yield return 0;
-
-        lineRenderer.enabled = false;
     }
 }
