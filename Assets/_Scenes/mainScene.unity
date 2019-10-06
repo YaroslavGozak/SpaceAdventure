@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44841188, g: 0.49844903, b: 0.5756246, a: 1}
+  m_IndirectSpecularColor: {r: 0.44841176, g: 0.49844885, b: 0.5756244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1126,7 +1126,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961357886}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.012397988
   m_Height: 0.02071242
@@ -1495,6 +1495,11 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8849828135497713812, guid: 198abff6b642f1346b4acdae8d6dfd77,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8849828135497713816, guid: 198abff6b642f1346b4acdae8d6dfd77,
         type: 3}
       propertyPath: m_IsKinematic
@@ -1514,11 +1519,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5494583362913453641, guid: d8485d019b93ac34481f2bb2145983bb,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1186966639479735915, guid: d8485d019b93ac34481f2bb2145983bb,
         type: 3}
       propertyPath: m_Name
@@ -1528,6 +1528,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: solar_panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494583362913453641, guid: d8485d019b93ac34481f2bb2145983bb,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7994369766058678084, guid: d8485d019b93ac34481f2bb2145983bb,
         type: 3}

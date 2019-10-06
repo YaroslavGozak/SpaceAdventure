@@ -91,27 +91,13 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collisionInfo)
     {
-        Debug.Log($"Collided with {other.gameObject.tag}");
+        var other = collisionInfo.collider;
+        Debug.Log(collisionInfo.collider.name);
         if (other.gameObject.tag == "solar_panel")
         {
-            //Debug.Log("Got Solar Panel");
-            //other.gameObject.transform.SetParent(gameObject.transform);
-            //Debug.Log("other.gameObject.transform.parent" + other.gameObject.transform.parent.name);
-            //other.gameObject.transform.localPosition = gameObject.GetComponent<PositionReferences>().GetNextPosition();
-            //Debug.Log("other.gameObject.transform.localPosition" + other.gameObject.transform.localPosition);
-
-            //var hingeJoint = new HingeJoint();
-            //hingeJoint = gameObject.AddComponent<HingeJoint>();
-            //var otherRigidBody = other.GetComponent<Rigidbody>();
-            //hingeJoint.connectedBody = other.GetComponent<Rigidbody>();
-            //otherRigidBody.mass = 0.00001F;
-            //otherRigidBody.freezeRotation = true;
-            //otherRigidBody.velocity = new Vector3(0, 0, 0);
-            //otherRigidBody.rotation = new Quaternion(0, 0, 0, 0);
-            //GetComponent<Collider>().material.bounciness = 0;
-
+          
             FixedJoint fixedJoint = gameObject.AddComponent<FixedJoint>();
             fixedJoint.anchor = gameObject.GetComponent<PositionReferences>().GetNextPosition();
             fixedJoint.connectedBody = other.GetComponent<Rigidbody>();
@@ -128,7 +114,7 @@ public class playerMovement : MonoBehaviour
             _moduleObjects.Add(module, other.gameObject);
             _ship.AddModule(module);
             _ship.OnModulaRemove += RemoveModuleHandler;
-            Debug.Log("Solar Panel attached");
+            //Debug.Log("Solar Panel attached");
         }
     }
 
@@ -136,7 +122,7 @@ public class playerMovement : MonoBehaviour
     {
         rb.AddForce(newPosition);
         _ship.SubstracEnergy(1);
-        //Debug.Log("ENERGY: " + _ship.Energy);
+        Debug.Log("ENERGY: " + _ship.Energy);
     }
 
     private void RemoveModuleHandler(object sender, EventArgs args)
