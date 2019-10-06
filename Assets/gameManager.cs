@@ -151,7 +151,7 @@ public class gameManager : MonoBehaviour
             isGameEnd = true;
             Debug.Log("Game Over");
             GameObject.Find("Player").GetComponent<Rigidbody>().useGravity = true;
-            GameObject.Find("Player").GetComponent<playerMovement>().y_edge = 6;
+            GameObject.Find("Player").GetComponent<PlayerMovement>().y_edge = 6;
             Invoke("GoToQuitMenu",4f);
         }
     }

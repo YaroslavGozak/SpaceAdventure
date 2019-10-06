@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: f026e0ade33c76740b37ee75af5d66db, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: e321b9d27f913ef43b9ade834ac92d7a, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.10522447, g: 0.122481965, b: 0.37650633, a: 1}
+  m_IndirectSpecularColor: {r: 0.1761043, g: 0.19331625, b: 0.3499732, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -434,12 +434,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3649288633282306193, guid: 8894afbd4594f1045afabe012da268f1,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: -5143170668746557254, guid: 2c99187e61330564cad62b9e4e26f2f8,
-        type: 3}
     - target: {fileID: 8814627636314968097, guid: 8894afbd4594f1045afabe012da268f1,
         type: 3}
       propertyPath: m_IsKinematic
@@ -510,6 +504,12 @@ PrefabInstance:
       propertyPath: k
       value: 0.001
       objectReference: {fileID: 0}
+    - target: {fileID: 3649288633282306193, guid: 8894afbd4594f1045afabe012da268f1,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5143170668746557254, guid: 2c99187e61330564cad62b9e4e26f2f8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8894afbd4594f1045afabe012da268f1, type: 3}
 --- !u!1 &705507993
@@ -1401,7 +1401,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.021770367
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7250380970566858017, guid: 05c6bcdcd3159e747b328e6603ea81c3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05c6bcdcd3159e747b328e6603ea81c3, type: 3}
 --- !u!1 &2069536835
 GameObject:
@@ -1490,6 +1491,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1961357891}
     m_Modifications:
+    - target: {fileID: -7574041438494183574, guid: d8485d019b93ac34481f2bb2145983bb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494583362913453641, guid: d8485d019b93ac34481f2bb2145983bb,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1186966639479735915, guid: d8485d019b93ac34481f2bb2145983bb,
         type: 3}
       propertyPath: m_Name
@@ -1503,16 +1514,6 @@ PrefabInstance:
     - target: {fileID: 1186966639479735915, guid: d8485d019b93ac34481f2bb2145983bb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7574041438494183574, guid: d8485d019b93ac34481f2bb2145983bb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5494583362913453641, guid: d8485d019b93ac34481f2bb2145983bb,
-        type: 3}
-      propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7994369766058678084, guid: d8485d019b93ac34481f2bb2145983bb,
@@ -1621,6 +1622,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1961357891}
     m_Modifications:
+    - target: {fileID: -7574041438494183574, guid: d8485d019b93ac34481f2bb2145983bb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494583362913453641, guid: d8485d019b93ac34481f2bb2145983bb,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1186966639479735915, guid: d8485d019b93ac34481f2bb2145983bb,
         type: 3}
       propertyPath: m_Name
@@ -1634,16 +1645,6 @@ PrefabInstance:
     - target: {fileID: 1186966639479735915, guid: d8485d019b93ac34481f2bb2145983bb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7574041438494183574, guid: d8485d019b93ac34481f2bb2145983bb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5494583362913453641, guid: d8485d019b93ac34481f2bb2145983bb,
-        type: 3}
-      propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7994369766058678084, guid: d8485d019b93ac34481f2bb2145983bb,

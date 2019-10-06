@@ -15,7 +15,7 @@ public class SolarPanelModule : ModuleBase, IModule
 
     public override void Apply(Ship ship)
     {
-        ship.AddEnergy(3);
+        ship.AddEnergy(30);
         base.Apply(ship);
     }
 

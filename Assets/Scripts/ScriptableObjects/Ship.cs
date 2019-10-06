@@ -88,6 +88,7 @@ namespace Uitry
         public void AddHub()
         {
             IsHubAttached = true;
+            Energy += 200;
         }
 
         public event ModuleRemoveEventHandler OnModulaRemove;
