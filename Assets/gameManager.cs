@@ -9,6 +9,7 @@ public class gameManager : MonoBehaviour
     public GameObject SpawnObject;
 
     private int _lastFrameCount;
+    private int count = 500;
     private System.Random _random;
     private float _timeDifference = 3;
     private IEnumerable<GameObject> _asteroidCollection;
@@ -28,6 +29,10 @@ public class gameManager : MonoBehaviour
         _spawnArea = new Vector3(SpawnObject.transform.position.x - 5, SpawnObject.transform.position.y);
         Debug.Log($"Trash collection size: {_trashCollection.Count()}");
         Debug.Log($"Asteroid collection size: {_asteroidCollection.Count()}");
+
+        //init start scene
+
+        ship.SubstracEnergy(10000); 
     }
 
     private void FixedUpdate()
@@ -43,7 +48,15 @@ public class gameManager : MonoBehaviour
 
         if (_ship.Energy == 0)
         {
-            EndGame();
+            if (count == 0)
+            {
+                EndGame();
+            }
+            count--;
+        }
+        else
+        {
+            count = 500;
         }
     }
 
@@ -109,6 +122,8 @@ public class gameManager : MonoBehaviour
         {
             isGameEnd = true;
             Debug.Log("Game Over");
+            GameObject.Find("Player").GetComponent<Rigidbody>().useGravity = true;
+            GameObject.Find("Player").GetComponent<playerMovement>().y_edge = 6;
             Invoke("GoToQuitMenu",4f);
         }
     }
@@ -116,8 +131,8 @@ public class gameManager : MonoBehaviour
     {
         SceneManager.LoadScene("EndGame");
     }
-    void Restart()
-    {}
+
+  
 
     GameObject GetPrefabByName(string name)
     {

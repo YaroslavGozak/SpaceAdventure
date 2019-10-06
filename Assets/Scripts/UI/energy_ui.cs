@@ -15,6 +15,7 @@ public class energy_ui : MonoBehaviour
     {
         if (_ship.Energy > 0)
         {
+            count = 0;
             var energy_num = Convert.ToInt32(_ship.Energy / 100);
             var energy_percent = _ship.Energy/10 / 10.0;
             string energy_string = "";
@@ -35,8 +36,16 @@ public class energy_ui : MonoBehaviour
         {
             if (count/20 % 2 == 0)
             {
+                var reverce_count = 10 - count / 40;
                 energy.color = Color.red;
-                energy.text = "Alert! No ENERGY left!";
+                if(reverce_count >= 0)
+                {
+                    energy.text = "No ENERGY left! OFF in :" + reverce_count.ToString();
+                }
+                else
+                {
+                    energy.text = "Shutting Down";
+                }
             }
             else
             {
