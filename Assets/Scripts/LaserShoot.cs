@@ -21,27 +21,15 @@ public class LaserShoot : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right);
-        Debug.Log("Shoot. Hit: " + hitInfo.point);
-        Debug.Log("Shoot. Hit: " + hitInfo.transform?.gameObject?.name);
-        if (hitInfo)
-        {
-            Damageble enemy = hitInfo.transform.GetComponent<Damageble>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-            }
-
-            Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
-
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, hitInfo.point);
-        }
-        else
-        {
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, firePoint.position + firePoint.right * 100);
-        }
+        var projectile = Instantiate(impactEffect, firePoint.position, firePoint.rotation /** Quaternion.Euler(0, 0, 90)*/);
+        projectile.AddComponent<Rigidbody>();
+        var rigidbody = projectile.GetComponent<Rigidbody>();
+        rigidbody.useGravity = false;
+        rigidbody.mass = 0.001f;
+        var r = rigidbody.rotation;
+        var v = r * Vector3.down;
+        Debug.Log("v: " + v);
+        rigidbody.AddForce(v * 1);
 
         lineRenderer.enabled = true;
 
