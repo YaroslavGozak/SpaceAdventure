@@ -1,20 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Uitry;
 using UnityEngine;
 
-public class SolarPanel : MonoBehaviour
+public class PlayerFollow : MonoBehaviour
 {
-    private IModule _module;
+    public Transform Player;
+    public Vector3 Offset;
     // Start is called before the first frame update
     void Start()
     {
-        _module = new SolarPanelModule();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = Player.position + Offset;
+        transform.rotation = Player.rotation;
     }
 }

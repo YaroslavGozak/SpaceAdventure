@@ -6,7 +6,7 @@ using UnityEngine;
 public class SolarPanelModule : ModuleBase, IModule
 {
     private float _elapsed;
-    public override string Name => typeof(SolarPanelModule).Name;
+    public override string Name { get; set;}
 
     public override int EnergyConsumption => 0;
 

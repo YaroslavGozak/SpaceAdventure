@@ -12,7 +12,7 @@ public class gameManager : MonoBehaviour
     private System.Random _random;
     private float _timeDifference = 3;
     private IEnumerable<GameObject> _asteroidCollection;
-    private IEnumerable<GameObject> _trashCollection;
+    private List<GameObject> _trashCollection;
     private Vector3 _spawnArea;
     private readonly float _heightRange = 5;
     private Ship _ship = Ship.Instance;
@@ -21,15 +21,13 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         ship = Ship.Instance;
-        _trashCollection = GameObject.FindGameObjectsWithTag("trash");
-        var list = _trashCollection.ToList();
-        list.AddRange(GameObject.FindGameObjectsWithTag("solar_panel"));
-        _trashCollection = list;
-        _asteroidCollection = GameObject.FindGameObjectsWithTag("asteroid");
+        _trashCollection = new List<GameObject> { /*GetPrefabByName("SpaceTrash"),*/ GetPrefabByName("SolarPanel") };
+        _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid") };
         _random = new System.Random();
         _lastFrameCount = 0;
         _spawnArea = new Vector3(SpawnObject.transform.position.x - 5, SpawnObject.transform.position.y);
         Debug.Log($"Trash collection size: {_trashCollection.Count()}");
+        Debug.Log($"Asteroid collection size: {_asteroidCollection.Count()}");
     }
 
     private void FixedUpdate()
@@ -52,7 +50,6 @@ public class gameManager : MonoBehaviour
     void SpawnTrash()
     {
         var trash = TakeRandomElement(_trashCollection);
-        Debug.Log($"Instantiated {trash.name}");
         SpawnSpaceElement(trash);
     }
     void SpawnAsteroid()
@@ -120,7 +117,12 @@ public class gameManager : MonoBehaviour
         SceneManager.LoadScene("EndGame");
     }
     void Restart()
-    {
+    {}
 
+    GameObject GetPrefabByName(string name)
+    {
+        var gameObject = Resources.Load<GameObject>($"Prefabs/{name}");
+        Debug.Log($"gameObject with name {name}: " + gameObject);
+        return gameObject;
     }
 }
