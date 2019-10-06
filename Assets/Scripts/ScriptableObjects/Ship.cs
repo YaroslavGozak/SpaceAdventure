@@ -13,9 +13,11 @@ namespace Uitry
         private int _defaultRam = 8;
         private int _additionalRam = 0;
 
+        public bool IsHubAttached { get; private set; }
         private Ship() {
             Modules = new List<IModule>();
             Energy = 10000;
+            IsHubAttached = false;
         }
         public static Ship Instance { get
             {
@@ -81,6 +83,11 @@ namespace Uitry
             _additionalRam -= ram;
             if (_additionalRam < 0)
                 _additionalRam = 0;
+        }
+
+        public void AddHub()
+        {
+            IsHubAttached = true;
         }
 
         public event ModuleRemoveEventHandler OnModulaRemove;

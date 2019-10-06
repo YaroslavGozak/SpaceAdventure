@@ -5,7 +5,7 @@ using System.Linq;
 using Uitry;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 
     public Rigidbody rb;
@@ -129,6 +129,19 @@ public class playerMovement : MonoBehaviour
                 _ship.OnModulaRemove += RemoveModuleHandler;
             }
         }
+        else if (other.gameObject.name.Contains("Hub"))
+        {
+            var hub = GetHubObjectToUpdate();
+            Debug.Log("Adding hub: ", hub);
+            if (hub != null)
+            {
+                _ship.AddHub();
+
+                hub.SetActive(true);
+                Debug.Log("Hub added: ", hub);
+                Destroy(collisionInfo.gameObject);
+            }
+        }
         else if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Trash"))
         {
             if (_ship.Modules.Any())
@@ -180,9 +193,9 @@ public class playerMovement : MonoBehaviour
         {
             Debug.Log("Attaching panel. Finding more damaged");
             var module = _moduleObjects.Keys.Where(obj => obj.Name.Contains("SolarPanel")).OrderBy(obj => obj.Health).First();
-            //if (module.Health == 100)
+            if (module.Health == 100)
                 return null;
-            //return _moduleObjects[module];
+            return _moduleObjects[module];
         }
         if (!rightAttached)
         {
@@ -199,5 +212,18 @@ public class playerMovement : MonoBehaviour
             return gameObject.transform.Find(leftName).gameObject;
         }
         
+    }
+
+    private GameObject GetHubObjectToUpdate()
+    {
+        var key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Hub"));
+        var hubAttached = key != null;
+        if (!hubAttached)
+        {
+            Debug.Log("Getting hub");
+            var hub = gameObject.transform.Find("Hub");
+            return hub.gameObject;
+        }
+        return null;
     }
 }
