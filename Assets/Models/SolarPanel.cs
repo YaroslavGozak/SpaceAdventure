@@ -18,11 +18,9 @@ public class SolarPanel : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.name == "Player")
-        {
-
-        }
+    private void OnCollisionEnter(Collision collision)
+    { 
+        _module.Damage(30);
+        Debug.Log($"Solar panel hit. Health {_module.Health}");
     }
 }

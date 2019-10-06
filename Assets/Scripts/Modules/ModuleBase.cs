@@ -10,7 +10,7 @@ public abstract class ModuleBase : IModule
     protected Ship _ship;
     public virtual bool IsDead => Health <= 0;
 
-    public abstract string Name { get; }
+    public abstract string Name { get; set; }
 
     public virtual int Health => _health;
 

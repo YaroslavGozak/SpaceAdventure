@@ -14,11 +14,18 @@ public class playerMovement : MonoBehaviour
     private int _maxSpeed = 3;
     private Ship _ship;
     private Dictionary<IModule, GameObject> _moduleObjects;
+    private int _rotationTimeCounter = 0;
+    private System.Random _random = new System.Random();
 
     private void Start()
     {
         _ship = Ship.Instance;
         _moduleObjects = new Dictionary<IModule, GameObject>();
+    }
+
+    private void Update()
+    {
+        _ship.UpdateModules();
     }
     void FixedUpdate()
     {
@@ -50,12 +57,12 @@ public class playerMovement : MonoBehaviour
         //rotate to top
         if (Input.GetKey("q") && validate_pos())
         {
-            rb.MoveRotation(rb.rotation * Quaternion.AngleAxis(k * thrustForce, Vector3.left));
+            RotateShip(rb.rotation * Quaternion.AngleAxis(k * thrustForce, Vector3.left));
         }
         //rotate to bottom
         if (Input.GetKey("e") && validate_pos())
         {
-            rb.MoveRotation(rb.rotation * Quaternion.AngleAxis(-k * thrustForce, Vector3.left));
+            RotateShip(rb.rotation * Quaternion.AngleAxis(-k * thrustForce, Vector3.left));
         }
     }
 
@@ -94,27 +101,30 @@ public class playerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collisionInfo)
     {
         var other = collisionInfo.collider;
-        Debug.Log(collisionInfo.collider.name);
-        if (other.gameObject.tag == "solar_panel")
+        if (other.gameObject.name.Contains("SolarPanel"))
         {
-          
-            FixedJoint fixedJoint = gameObject.AddComponent<FixedJoint>();
-            fixedJoint.anchor = gameObject.GetComponent<PositionReferences>().GetNextPosition();
-            fixedJoint.connectedBody = other.GetComponent<Rigidbody>();
-            fixedJoint.transform.position = fixedJoint.anchor;
-            fixedJoint.transform.rotation = Quaternion.identity;
+            var solarPanel = GetSolarPanelObjectToUpdate();
+            if(solarPanel != null)
+            {
+                Debug.Log($"Children: {gameObject.transform.childCount}");
 
-            var otherRigidBody = other.GetComponent<Rigidbody>();
-            otherRigidBody.mass = 0.00001F;
+                solarPanel.SetActive(true);
 
-            var otherCollider = other.GetComponent<Collider>();
-            otherCollider.enabled = false;
+                Destroy(collisionInfo.gameObject);
 
-            var module = new SolarPanelModule();
-            _moduleObjects.Add(module, other.gameObject);
-            _ship.AddModule(module);
-            _ship.OnModulaRemove += RemoveModuleHandler;
-            //Debug.Log("Solar Panel attached");
+                var module = new SolarPanelModule()
+                {
+                    Name = solarPanel.name
+                };
+                _moduleObjects.Add(module, solarPanel);
+                _ship.AddModule(module);
+                _ship.OnModulaRemove += RemoveModuleHandler;
+            }
+        }
+        else if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Trash"))
+        {
+            var moduleKey = _ship.Modules[_random.Next(_ship.Modules.Count)];
+            moduleKey.Damage(30);
         }
     }
 
@@ -122,18 +132,60 @@ public class playerMovement : MonoBehaviour
     {
         rb.AddForce(newPosition);
         _ship.SubstracEnergy(1);
-        Debug.Log("ENERGY: " + _ship.Energy);
+        //Debug.Log("ENERGY: " + _ship.Energy);
     }
 
-    private void RemoveModuleHandler(object sender, EventArgs args)
+    private void RotateShip(Quaternion rotation)
     {
-        RemoveModule();
+        if(_rotationTimeCounter++ >= 5)
+        {
+            _ship.SubstracEnergy(1);
+            _rotationTimeCounter = 0;
+        }
+        rb.MoveRotation(rotation);
+        
+        //Debug.Log("ENERGY: " + _ship.Energy);
     }
-    private void RemoveModule()
+
+    private void RemoveModuleHandler(object sender, ModuleRemoveEventArgs args)
     {
-        var firstModule = _moduleObjects.Keys.First();
-        var gameObject = _moduleObjects[firstModule];
-        gameObject.transform.parent = null;
-        _moduleObjects.Remove(firstModule);
+        RemoveModule(args.Module);
+    }
+    private void RemoveModule(IModule module)
+    {
+        var gameObject = _moduleObjects[module];
+        gameObject.SetActive(false);
+        _moduleObjects.Remove(module);
+    }
+
+    private GameObject GetSolarPanelObjectToUpdate()
+    {
+        var key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("SolarPanelLeft"));
+        var leftAttached = key != null;
+        key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("SolarPanelRight"));
+        var rightAttached = key != null;
+        if (leftAttached && rightAttached)
+        {
+            Debug.Log("Attaching panel. Finding more damaged");
+            var module = _moduleObjects.Keys.Where(obj => obj.Name.Contains("SolarPanel")).OrderBy(obj => obj.Health).First();
+            //if (module.Health == 100)
+                return null;
+            //return _moduleObjects[module];
+        }
+        if (!rightAttached)
+        {
+            Debug.Log("Getting right");
+            var rightName = gameObject.transform.GetChild(0).name;
+            Debug.Log(gameObject.transform.GetChild(0).name);
+            return gameObject.transform.Find(rightName).gameObject;
+        }
+        else
+        {
+            Debug.Log("Getting left");
+            var leftName = gameObject.transform.GetChild(1).name;
+            Debug.Log(gameObject.transform.GetChild(1).name);
+            return gameObject.transform.Find(leftName).gameObject;
+        }
+        
     }
 }
