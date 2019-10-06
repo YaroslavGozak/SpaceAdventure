@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -7574041438494183574}
   m_Layer: 0
   m_Name: SolarPanel
-  m_TagString: solar_panel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -17,10 +17,4 @@ public class SolarPanel : MonoBehaviour
     {
         
     }
-
-    private void OnCollisionEnter(Collision collision)
-    { 
-        _module.Damage(30);
-        Debug.Log($"Solar panel hit. Health {_module.Health}");
-    }
 }

@@ -125,6 +125,7 @@ public class playerMovement : MonoBehaviour
         {
             var moduleKey = _ship.Modules[_random.Next(_ship.Modules.Count)];
             moduleKey.Damage(30);
+            Debug.Log($"Ship hit. {moduleKey.Name} health {moduleKey.Health}");
         }
     }
 
@@ -175,15 +176,15 @@ public class playerMovement : MonoBehaviour
         if (!rightAttached)
         {
             Debug.Log("Getting right");
-            var rightName = gameObject.transform.GetChild(0).name;
-            Debug.Log(gameObject.transform.GetChild(0).name);
+            var rightName = gameObject.transform.GetChild(1).name;
+            Debug.Log(gameObject.transform.GetChild(1).name);
             return gameObject.transform.Find(rightName).gameObject;
         }
         else
         {
             Debug.Log("Getting left");
-            var leftName = gameObject.transform.GetChild(1).name;
-            Debug.Log(gameObject.transform.GetChild(1).name);
+            var leftName = gameObject.transform.GetChild(0).name;
+            Debug.Log(gameObject.transform.GetChild(0).name);
             return gameObject.transform.Find(leftName).gameObject;
         }
         
