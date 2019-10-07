@@ -214,7 +214,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7766620224981910873}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6f1edb6c45f3a049a6e2ff64e64519d, type: 3}
   m_Name: 
@@ -234,4 +234,4 @@ CapsuleCollider:
   m_Radius: 0.002540162
   m_Height: 0.020238075
   m_Direction: 0
-  m_Center: {x: 0.0012961121, y: -0.0000008147358, z: 0.011}
+  m_Center: {x: 0.0012961121, y: -0.0000008147358, z: 0}
