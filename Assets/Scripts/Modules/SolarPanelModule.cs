@@ -25,7 +25,11 @@ public class SolarPanelModule : ModuleBase, IModule
         if (_elapsed >= 1f)
         {
             _elapsed = _elapsed % 1f;
-            AddEnergy();
+            if (_ship.IsToraxAlive)
+            {
+                AddEnergy();
+            }
+            
         }
     }
 

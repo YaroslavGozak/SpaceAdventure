@@ -10,15 +10,17 @@ namespace Uitry
     public class Ship
     {
         private static Ship _instance = new Ship();
-        private int _defaultRam = 8;
+        private int _defaultRam = 10;
         private int _additionalRam = 0;
 
         public bool IsHubAttached { get; private set; }
+        public bool IsToraxAlive { get; private set; }
         private Ship() {
             Modules = new List<IModule>();
             Energy = 10000;
             Score = 0;
             IsHubAttached = false;
+            IsToraxAlive = false;
             Mesage = ">_";
         }
         public static Ship Instance { get
@@ -125,6 +127,14 @@ namespace Uitry
         {
             IsHubAttached = true;
             Energy += 200;
+        }
+        public void AddTorax()
+        {
+            IsToraxAlive = true;
+        }
+        public void RemoveTorax()
+        {
+            IsToraxAlive = false;
         }
 
         public event ModuleRemoveEventHandler OnModulaRemove;

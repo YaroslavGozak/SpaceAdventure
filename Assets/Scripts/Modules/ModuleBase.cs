@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class ModuleBase : IModule
 {
-    protected int _health = 100;
+    protected int _health = 50;
 
     protected Ship _ship;
     public virtual bool IsDead => Health <= 0;
@@ -31,7 +31,11 @@ public virtual void Apply(Ship ship)
 
         if (IsDead)
         {
-            Debug.Log($"Module {this.GetType().Name} is dead. Detaching from ship");
+            _ship.AddMsg($"Module {this.GetType().Name} is broken. Detaching from ship...");
+            if(this.GetType().Name == "SolarToraxModule")
+            {
+                _ship.RemoveTorax();
+            }
             _ship.RemoveModule(this);
         }
            

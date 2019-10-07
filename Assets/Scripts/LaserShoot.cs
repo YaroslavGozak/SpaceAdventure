@@ -21,16 +21,26 @@ public class LaserShoot : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        var projectile = Instantiate(Projectile, firePoint.position, firePoint.rotation /** Quaternion.Euler(0, 0, 90)*/);
-        projectile.AddComponent<Rigidbody>();
-        var rig = projectile.GetComponent<Rigidbody>();
-        rig.useGravity = false;
-        rig.mass = 0.001f;
-        var r = rig.rotation;
-        var v = r * Vector3.down;
-        Debug.Log("v: " + v * -1);
-        rig.AddForce(v * -1);
-        _ship.SubstracEnergy(5);
+        if(_ship.Energy > 0)
+        {
+            var projectile = Instantiate(Projectile, firePoint.position, firePoint.rotation /** Quaternion.Euler(0, 0, 90)*/);
+            projectile.AddComponent<Rigidbody>();
+            var rig = projectile.GetComponent<Rigidbody>();
+            rig.useGravity = false;
+            rig.mass = 0.001f;
+            var r = rig.rotation;
+            var v = r * Vector3.down;
+            Debug.Log("v: " + v * -1);
+            rig.AddForce(v * -1);
+            _ship.SubstracEnergy(5);
+
+            _ship.AddMsg("#1 priority: destroy enemy satellites");
+        }
+        else
+        {
+            _ship.AddMsg("Not enough energy to shoot");
+        }
+        
 
         yield return 0;
     }

@@ -24,8 +24,8 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         ship = Ship.Instance;
-        _trashCollection = new List<GameObject> { GetPrefabByName("Solar_torax_LP_col"), GetPrefabByName("SolarPanel"), GetPrefabByName("Laser_LP_col") };
-        _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid"), GetPrefabByName("SpaceTrash") };
+        _trashCollection = new List<GameObject> { GetPrefabByName("Asteroid"), GetPrefabByName("Asteroid"), GetPrefabByName("Asteroid"), GetPrefabByName("Solar_torax_LP_col"), GetPrefabByName("SolarPanel"), GetPrefabByName("Laser_LP_col") };
+        _asteroidCollection = new List<GameObject> { GetPrefabByName("SpaceTrash") };
         _hub = GameObject.Find("hub_col");
         _random = new System.Random();
         _lastFrameCount = 0;
@@ -61,15 +61,16 @@ public class gameManager : MonoBehaviour
             {
                 SpawnHub();
                 _hubSpawned = true;
-                Invoke("SpawnTorax", 3f);
-                Invoke("SpawnPanel", 6f);
-                Invoke("SpawnLaser", 9f);
-                Invoke("SpawnTorax", 12f);
-                Invoke("SpawnPanel", 15f);
-                Invoke("SpawnLaser", 18f);
-                Invoke("SpawnTorax", 21f);
+
+                Invoke("SpawnTorax", 18f);
+                Invoke("SpawnPanel", 24f);
+                Invoke("SpawnLaser", 24f);
+                Invoke("SpawnTorax", 24f);
                 Invoke("SpawnPanel", 24f);
                 Invoke("SpawnLaser", 27f);
+                Invoke("SpawnTorax", 30f);
+                Invoke("SpawnPanel", 33f);
+                Invoke("SpawnLaser", 36f);
             }
         }
         else
