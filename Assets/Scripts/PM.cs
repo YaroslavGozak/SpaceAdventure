@@ -30,6 +30,16 @@ public class PM : MonoBehaviour
     void FixedUpdate()
     {
         validate_pos();
+
+        if (_ship.Energy <= 0 )
+        {
+            k = 0.001f;
+        }
+        else
+        {
+            k = 0.01f;
+        }
+
         //up
         if (Input.GetKey("w") && validate_pos() && rb.velocity.y < _maxSpeed)
         {
@@ -101,7 +111,7 @@ public class PM : MonoBehaviour
     private void OnCollisionEnter(Collision collisionInfo)
     {
         var other = collisionInfo.collider;
-        Debug.Log($"Collided: {other.gameObject.name}");
+        //_ship.AddMsg($"Collided: {other.gameObject.name}");
         if (other.gameObject.name.Contains("SolarPanel"))
         {
             var solarPanel = GetSolarPanelObjectToUpdate();
@@ -132,20 +142,20 @@ public class PM : MonoBehaviour
         if (other.gameObject.name.Contains("hub_col"))
         {
             var hub = GetHubObjectToUpdate();
-            Debug.Log("Adding hub: ", hub);
+            _ship.AddMsg("Adding hub");
             if (hub != null)
             {
                 _ship.AddHub();
 
                 hub.SetActive(true);
-                Debug.Log("Hub added: ", hub);
+                _ship.AddMsg("Hub added");
                 Destroy(collisionInfo.gameObject);
             }
         }
         if (other.gameObject.name.Contains("Laser_LP_col"))
         {
             var laser = GetLaserShooterObjectToUpdate();
-            Debug.Log("Adding laser: ", laser);
+            _ship.AddMsg("Adding laser");
             if (laser != null)
             {
                 var module = new LaserModule()
@@ -163,7 +173,7 @@ public class PM : MonoBehaviour
                 }
 
                 laser.SetActive(true);
-                Debug.Log("Laser added: ", laser);
+                _ship.AddMsg("Laser added");
                 Destroy(collisionInfo.gameObject);
                 _moduleObjects.Add(module, laser);
             }
@@ -171,7 +181,7 @@ public class PM : MonoBehaviour
         if (other.gameObject.name.Contains("Solar_torax"))
         {
             var solarTorax = GetSolarToraxObjectToUpdate();
-            Debug.Log("Adding solar torax: ", solarTorax);
+            _ship.AddMsg("Adding solar torax");
             if (solarTorax != null)
             {
                 var module = new SolarToraxModule()
@@ -189,7 +199,7 @@ public class PM : MonoBehaviour
                 }
 
                 solarTorax.SetActive(true);
-                Debug.Log("SolarToraxModule added: ", solarTorax);
+                _ship.AddMsg("SolarToraxModule added");
                 Destroy(collisionInfo.gameObject);
                 _moduleObjects.Add(module, solarTorax);
             }
@@ -200,7 +210,7 @@ public class PM : MonoBehaviour
             {
                 var moduleKey = _ship.Modules[_random.Next(_ship.Modules.Count)];
                 moduleKey.Damage(30);
-                Debug.Log($"Ship hit. {moduleKey.Name} health {moduleKey.Health}");
+                _ship.AddMsg($"Ship hit. {moduleKey.Name} health {moduleKey.Health}");
             }
         }
     }
@@ -237,30 +247,40 @@ public class PM : MonoBehaviour
 
     private GameObject GetSolarPanelObjectToUpdate()
     {
-        var key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Solar_Wing_left"));
-        var leftAttached = key != null;
-        key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Solar_Wing_right"));
-        var rightAttached = key != null;
-        if (leftAttached && rightAttached)
+        var solarTorax = gameObject.transform.Find("Solar_torax_LP").gameObject;
+
+        if (solarTorax.active)
         {
-            Debug.Log("Attaching panel. Finding more damaged");
-            var module = _moduleObjects.Keys.Where(obj => obj.Name.Contains("SolarPanel")).OrderBy(obj => obj.Health).First();
-            if (module.Health == 100)
-                return null;
-            return _moduleObjects[module];
-        }
-        if (!rightAttached)
-        {
-            Debug.Log("Getting right");
-            var torax = gameObject.transform.Find("Solar_torax_LP").gameObject;
-            return torax.transform.Find("Solar_Wing_right").gameObject;
+            var key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Solar_Wing_left"));
+            var leftAttached = key != null;
+            key = _moduleObjects.Keys.FirstOrDefault(obj => obj.Name.Contains("Solar_Wing_right"));
+            var rightAttached = key != null;
+            if (leftAttached && rightAttached)
+            {
+                _ship.AddMsg("Attaching panel. Finding more damaged");
+                var module = _moduleObjects.Keys.Where(obj => obj.Name.Contains("SolarPanel")).OrderBy(obj => obj.Health).First();
+                if (module.Health == 100)
+                    return null;
+                return _moduleObjects[module];
+            }
+            if (!rightAttached)
+            {
+                _ship.AddMsg("Getting right");
+                var torax = gameObject.transform.Find("Solar_torax_LP").gameObject;
+                return torax.transform.Find("Solar_Wing_right").gameObject;
+            }
+            else
+            {
+                _ship.AddMsg("Getting left");
+                var torax = gameObject.transform.Find("Solar_torax_LP").gameObject;
+                return torax.transform.Find("Solar_Wing_left").gameObject;
+            }
         }
         else
         {
-            Debug.Log("Getting left");
-            var torax = gameObject.transform.Find("Solar_torax_LP").gameObject;
-            return torax.transform.Find("Solar_Wing_left").gameObject;
+            return null;
         }
+        
 
     }
 
@@ -270,7 +290,7 @@ public class PM : MonoBehaviour
         var hubAttached = key != null;
         if (!hubAttached)
         {
-            Debug.Log("Getting hub");
+            _ship.AddMsg("Getting hub");
             var hub = gameObject.transform.Find("Hub");
             return hub.gameObject;
         }
@@ -283,7 +303,7 @@ public class PM : MonoBehaviour
         var laserAttached = key != null;
         if (!laserAttached)
         {
-            Debug.Log("Getting laser");
+            _ship.AddMsg("Getting laser");
             var laser = gameObject.transform.Find("Laser_LP");
             return laser.gameObject;
         }
@@ -299,7 +319,7 @@ public class PM : MonoBehaviour
         var solarTorax = key != null;
         if (!solarTorax)
         {
-            Debug.Log("Getting solar");
+            _ship.AddMsg("Getting solar torax");
             var laser = gameObject.transform.Find("Solar_torax_LP");
             return laser.gameObject;
         }

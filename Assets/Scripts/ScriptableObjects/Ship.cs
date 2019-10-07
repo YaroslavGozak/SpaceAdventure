@@ -17,7 +17,9 @@ namespace Uitry
         private Ship() {
             Modules = new List<IModule>();
             Energy = 10000;
+            Score = 0;
             IsHubAttached = false;
+            Mesage = ">_";
         }
         public static Ship Instance { get
             {
@@ -25,6 +27,8 @@ namespace Uitry
             }
         }
         public int Energy { get; private set; }
+        public int Score { get; private set; }
+        public string Mesage { get; private set; }
         public int RAM => _defaultRam + _additionalRam - Modules.Sum(module => module.RequiredRam);
 
         public List<IModule> Modules { get; set; }
@@ -43,7 +47,7 @@ namespace Uitry
         }
         public void AddModule(IModule module)
         {
-            Debug.Log("Ram: " + RAM);
+            //AddMsg("Ram: " + RAM);
             if (RAM < module.RequiredRam)
                 throw new RamNotEnoughException("Ram not enough for module");
             Modules.Add(module);
@@ -78,11 +82,26 @@ namespace Uitry
             _additionalRam += ram;
         }
 
+        public void IncreaseScore()
+        {
+            Score++;
+        }
+
+        public void NullScore()
+        {
+            Score = 0;
+        }
+
         public void SubstractRam(int ram)
         {
             _additionalRam -= ram;
             if (_additionalRam < 0)
                 _additionalRam = 0;
+        }
+
+        public void AddMsg(string msg)
+        {
+            Mesage = ">_" + msg;
         }
 
         public void AddHub()

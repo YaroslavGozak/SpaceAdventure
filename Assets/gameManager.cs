@@ -33,7 +33,13 @@ public class gameManager : MonoBehaviour
 
         //init start scene
 
-        ship.SubstracEnergy(10000); 
+        ship.SubstracEnergy(10000);
+        ship.NullScore();
+        _hubSpawned = false;
+
+
+        _ship.AddMsg(">_hi");
+
     }
 
     private void FixedUpdate()
@@ -103,6 +109,16 @@ public class gameManager : MonoBehaviour
         {
             element.GetComponent<SphereCollider>().isTrigger = false;
         }
+        var damage = element.GetComponent<Damageble>();
+        if(damage == null)
+        {
+            element.AddComponent<Damageble>();
+        }
+        var rotate = element.GetComponent<Rotator>();
+        if (rotate == null)
+        {
+            element.AddComponent<Rotator>();
+        }
         var rigidBody = element.GetComponent<Rigidbody>();
         if(rigidBody == null)
         {
@@ -161,7 +177,7 @@ public class gameManager : MonoBehaviour
             isGameEnd = true;
             Debug.Log("Game Over");
             GameObject.Find("Player").GetComponent<Rigidbody>().useGravity = true;
-            GameObject.Find("Player").GetComponent<PlayerMovement>().y_edge = 6;
+            GameObject.Find("Player").GetComponent<PM>().y_edge = 6;
             Invoke("GoToQuitMenu",4f);
         }
     }

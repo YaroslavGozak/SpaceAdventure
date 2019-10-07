@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Uitry;
 using UnityEngine;
 
 public class LaserShoot : MonoBehaviour
@@ -7,6 +8,7 @@ public class LaserShoot : MonoBehaviour
     public Transform firePoint;
     public int damage = 40;
     public GameObject Projectile;
+    private Ship _ship = Ship.Instance;
 
     // Update is called once per frame
     void Update()
@@ -28,6 +30,7 @@ public class LaserShoot : MonoBehaviour
         var v = r * Vector3.down;
         Debug.Log("v: " + v * -1);
         rig.AddForce(v * -1);
+        _ship.SubstracEnergy(5);
 
         yield return 0;
     }
