@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserShoot : MonoBehaviour
+public class LS : MonoBehaviour
 {
     public Transform firePoint;
     public int damage = 40;
@@ -21,13 +21,13 @@ public class LaserShoot : MonoBehaviour
     {
         var projectile = Instantiate(Projectile, firePoint.position, firePoint.rotation /** Quaternion.Euler(0, 0, 90)*/);
         projectile.AddComponent<Rigidbody>();
-        var rig = projectile.GetComponent<Rigidbody>();
-        rig.useGravity = false;
-        rig.mass = 0.001f;
-        var r = rig.rotation;
+        var rigidbody = projectile.GetComponent<Rigidbody>();
+        rigidbody.useGravity = false;
+        rigidbody.mass = 0.0001f;
+        var r = rigidbody.rotation;
         var v = r * Vector3.down;
-        Debug.Log("v: " + v * -1);
-        rig.AddForce(v * -1);
+        Debug.Log("v: " + v);
+        rigidbody.AddForce(v * 100);
 
         yield return 0;
     }

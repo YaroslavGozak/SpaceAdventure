@@ -4,7 +4,7 @@ using System.Linq;
 using Uitry;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PM : MonoBehaviour
 {
 
     public Rigidbody rb;
