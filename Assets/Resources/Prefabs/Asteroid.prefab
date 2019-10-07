@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Trash: {fileID: 0}
-  rotationMultipier: 100
+  rotationMultipier: 60
 --- !u!114 &703915069133536179
 MonoBehaviour:
   m_ObjectHideFlags: 0
