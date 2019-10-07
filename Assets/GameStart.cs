@@ -8,4 +8,5 @@ public class GameStart : MonoBehaviour
     {
         SceneManager.LoadScene("mainScene");
     }
+
 }
