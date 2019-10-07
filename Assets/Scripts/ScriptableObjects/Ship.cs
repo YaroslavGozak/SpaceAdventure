@@ -110,6 +110,11 @@ namespace Uitry
             Energy += 200;
         }
 
+        public void RemoveHub()
+        {
+            IsHubAttached = false;
+        }
+
         public void AddLaser()
         {
             IsHubAttached = true;

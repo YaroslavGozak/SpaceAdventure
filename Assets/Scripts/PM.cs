@@ -148,7 +148,8 @@ public class PM : MonoBehaviour
                 _ship.AddHub();
 
                 hub.SetActive(true);
-                _ship.AddMsg("Hub added");
+                _ship.AddMsg("New Mother Shell was found. Initializing...");
+                Invoke("Msg3", 3f);
                 Destroy(collisionInfo.gameObject);
             }
         }
@@ -213,6 +214,11 @@ public class PM : MonoBehaviour
                 _ship.AddMsg($"Ship hit. {moduleKey.Name} health {moduleKey.Health}");
             }
         }
+    }
+
+    void Msg3()
+    {
+        _ship.AddMsg("Status: critical low energy...\n    Find yellow Solar Torax and panels for it\n    to be able to accumulate energy");
     }
 
     private void MoveShip(Vector3 newPosition)

@@ -24,8 +24,8 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         ship = Ship.Instance;
-        _trashCollection = new List<GameObject> { GetPrefabByName("SpaceTrash"), GetPrefabByName("SolarPanel"), GetPrefabByName("Laser_LP_col") };
-        _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid"), GetPrefabByName("Solar_torax_LP_col"), GetPrefabByName("SolarPanel") };
+        _trashCollection = new List<GameObject> { GetPrefabByName("Solar_torax_LP_col"), GetPrefabByName("SolarPanel"), GetPrefabByName("Laser_LP_col") };
+        _asteroidCollection = new List<GameObject> { GetPrefabByName("Asteroid"), GetPrefabByName("SpaceTrash") };
         _hub = GameObject.Find("hub_col");
         _random = new System.Random();
         _lastFrameCount = 0;
@@ -35,11 +35,22 @@ public class gameManager : MonoBehaviour
 
         ship.SubstracEnergy(10000);
         ship.NullScore();
+        ship.RemoveHub();
         _hubSpawned = false;
 
+        _ship.AddMsg("System initializing... \n    system checking...");
+        Invoke("startMsg1", 3f);
+        Invoke("startMsg2", 7f);
 
-        _ship.AddMsg(">_hi");
+    }
 
+    void startMsg1()
+    {
+        _ship.AddMsg("Mother Shell was destroyed... \n    Use 'w','a','s','d','q','e' to collect\n    useful parts of padded satellites");
+    }
+    void startMsg2()
+    {
+        _ship.AddMsg("Mother Shell was destroyed... \n    Use 'w','a','s','d','q','e' to collect\n    useful parts of padded satellites\n    #1 Priority task: find another Shell");
     }
 
     private void FixedUpdate()
@@ -50,6 +61,15 @@ public class gameManager : MonoBehaviour
             {
                 SpawnHub();
                 _hubSpawned = true;
+                Invoke("SpawnTorax", 3f);
+                Invoke("SpawnPanel", 6f);
+                Invoke("SpawnLaser", 9f);
+                Invoke("SpawnTorax", 12f);
+                Invoke("SpawnPanel", 15f);
+                Invoke("SpawnLaser", 18f);
+                Invoke("SpawnTorax", 21f);
+                Invoke("SpawnPanel", 24f);
+                Invoke("SpawnLaser", 27f);
             }
         }
         else
@@ -85,6 +105,18 @@ public class gameManager : MonoBehaviour
     {
         var asteroid = TakeRandomElement(_asteroidCollection);
         SpawnSpaceElement(asteroid);
+    }
+    void SpawnTorax()
+    {
+        SpawnSpaceElement(GetPrefabByName("Solar_torax_LP_col"));
+    }
+    void SpawnPanel()
+    {
+        SpawnSpaceElement(GetPrefabByName("SolarPanel"));
+    }
+    void SpawnLaser()
+    {
+        SpawnSpaceElement(GetPrefabByName("Laser_LP_col"));
     }
 
     void SpawnHub()
